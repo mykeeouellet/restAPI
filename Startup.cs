@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+// Unused usings removed
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Rocket_Elevators_Rest_Api.Models;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using RestApi.Models;
 
-namespace Rocket_Elevators_Rest_Api
+namespace RestApi
 {
     public class Startup
     {
@@ -21,27 +17,35 @@ namespace Rocket_Elevators_Rest_Api
         {
             Configuration = configuration;
         }
+
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-            {
-                services.AddCors(); //Test local without problems
-                services.AddDbContext<RocketElevators>(options => 
-                    options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-                services.AddMvc ();
-            }
+        {
+        services.AddCors();
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        services.AddControllers().AddNewtonsoftJson(options =>
+            options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+        );
+
+        services.AddDbContext<ApiContext>(options =>
+        options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+        services.AddMvc();
+        }
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseHttpsRedirection();
+
             app.UseRouting();
+
             app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -49,5 +53,3 @@ namespace Rocket_Elevators_Rest_Api
         }
     }
 }
-
-

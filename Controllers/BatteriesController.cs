@@ -5,69 +5,56 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Rocket_Elevators_Rest_Api.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using RestApi.Models;
 
-namespace Rocket_Elevators_Rest_Api.Controllers
+namespace RestApi.Controllers
 {
-    [Route("api/Batteries")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BatteriesController : ControllerBase
     {
-        private readonly RocketElevators _context;
-
-        public BatteriesController(RocketElevators context)
+        private readonly ApiContext _context;
+        public BatteriesController(ApiContext context)
         {
             _context = context;
         }
 
-        // GET: api/Batteries 
-        // Return List of all Batteries
+        // GET: api/batteries
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Batteries>>> GetBatteries()
+        public async Task<ActionResult<IEnumerable<Battery>>> Getbatteries()
         {
-            return await _context.Batteries.ToListAsync();
+            return await _context.batteries.ToListAsync();
         }
 
-        // GET: api/Batteries/5
-        // Return Status of Specific Battery
+        // GET: api/batteries/1
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> GetBatteryStatus(long id)
+        public async Task<ActionResult<Battery>> Getbatteries(long id)
         {
-            var batterie = await _context.Batteries.FindAsync(id);
-            if (batterie == null)
+            var batteries = await _context.batteries.FindAsync(id);
+            if (batteries == null)
             {
-                return "ID not found";
+                return NotFound();
             }
-            return batterie.BatteryStatus;
+            return batteries;
         }
- 
-        // PUT: api/Batteries/5
-        // Change Status of Specific Battery
-        [HttpPut("update/status/{id}")]
-        public async Task<IActionResult> PutUpdateBatteryStatus(long id, string status)
+
+        // PUT: api/batteries/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Putbatteries(long id, Battery batteries)
         {
-
-            if (id == null)
+            if (id != batteries.id)
             {
                 return BadRequest();
             }
-
-            if (status == null)
-            {
-                return BadRequest();
-            }
-
-            var Battery = await _context.Batteries.FindAsync(id);
-
-            Battery.BatteryStatus = status;
-            
+            _context.Entry(batteries).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BatteriesExists(id))
+                if (!batteriesExists(id))
                 {
                     return NotFound();
                 }
@@ -76,49 +63,34 @@ namespace Rocket_Elevators_Rest_Api.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
-
-        // Return True if specific Battery exist else return False
-        private bool BatteriesExists(long id)
-        {
-            return _context.Batteries.Any(e => e.Id == id);
-        }
-
-
-
-        // POST: api/Batteries
+        
+        // POST: api/batteries
         [HttpPost]
-        public async Task<ActionResult<Batteries>> PostBatteries(Batteries batteries)
+        public async Task<ActionResult<Battery>> Postbatteries(Battery batteries)
         {
-            _context.Batteries.Add(batteries);
+            _context.batteries.Add(batteries);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBatteries", new { id = batteries.Id }, batteries);
+            return CreatedAtAction(nameof(Getbatteries), new { id = batteries.id }, batteries);
         }
 
-
-
-        // DELETE: Batteries
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteBattery(long id)
+        // DELETE: api/batteries/1
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Battery>> Deletebatteries(long id)
         {
-
-            if (id == null)
+            var batteries = await _context.batteries.FindAsync(id);
+            if (batteries == null)
             {
                 return NotFound();
             }
-
-            var Battery = await _context.Batteries.FindAsync(id);
-
-            _context.Batteries.Remove(Battery);
-
+            _context.batteries.Remove(batteries);
             await _context.SaveChangesAsync();
-
-            return NoContent();
+            return batteries;
         }
-
+        private bool batteriesExists(long id)
+        {
+            return _context.batteries.Any(e => e.id == id);
+        }
     }
 }
-

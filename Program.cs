@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Rocket_Elevators_Rest_Api
+namespace RestApi
 {
     public class Program
     {

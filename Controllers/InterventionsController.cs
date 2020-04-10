@@ -14,29 +14,29 @@ namespace RestApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LeadsController : ControllerBase
+    public class InterventionsController : ControllerBase
     {
         private readonly ApiContext _context;
-        public LeadsController(ApiContext context)
+        public InterventionsController(ApiContext context)
         {
             _context = context;
         }
 
-        // GET: api/leads
+        // GET: api/interventions
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Lead>>> Getleads()
+        public async Task<ActionResult<IEnumerable<Intervention>>> Getinterventions()
         {
-            return await _context.leads.ToListAsync();
+            return await _context.interventions.ToListAsync();
         }
 
-        // GET: api/leads/available
+        // GET: api/interventions/available
         [HttpGet("notacustomer")]
-        public List<Lead> Getnotacustomer()
+        public List<Intervention> Getnotacustomer()
         {
-            List<Lead> contacts = _context.leads.ToList();
+            List<Intervention> contacts = _context.interventions.ToList();
             List<Customer> existingCustomer = _context.customers.ToList();
 
-            List<Lead> leadsList = new List<Lead>();
+            List<Intervention> interventionsList = new List<Intervention>();
             var dateMax = DateTime.Now.AddDays(-30);
 
             foreach(var test in contacts){
@@ -48,29 +48,29 @@ namespace RestApi.Controllers
                         }
                     }
                     if(!foundCustomer) {
-                        leadsList.Add(test);
+                        interventionsList.Add(test);
                     }
                 }
             }
-            return leadsList.ToList();
+            return interventionsList.ToList();
         }
 
-        // PUT: api/leads/5
+        // PUT: api/interventions/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Putleads(long id, Lead leads)
+        public async Task<IActionResult> Putinterventions(long id, Intervention interventions)
         {
-            if (id != leads.id)
+            if (id != interventions.id)
             {
                 return BadRequest();
             }
-            _context.Entry(leads).State = EntityState.Modified;
+            _context.Entry(interventions).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!leadsExists(id))
+                if (!interventionsExists(id))
                 {
                     return NotFound();
                 }
@@ -82,32 +82,32 @@ namespace RestApi.Controllers
             return NoContent();
         }
         
-        // POST: api/leads
+        // POST: api/interventions
         [HttpPost]
-        public async Task<ActionResult<Lead>> Postleads(Lead leads)
+        public async Task<ActionResult<Intervention>> Postinterventions(Intervention interventions)
         {
-            _context.leads.Add(leads);
+            _context.interventions.Add(interventions);
             await _context.SaveChangesAsync();
-            //return CreatedAtAction("Getleads", new { id = leads.Id }, leads);
-            return CreatedAtAction(nameof(Getleads), new { id = leads.id }, leads);
+            //return CreatedAtAction("Getinterventions", new { id = interventions.Id }, interventions);
+            return CreatedAtAction(nameof(Getinterventions), new { id = interventions.id }, interventions);
         }
 
-        // DELETE: api/leads/1
+        // DELETE: api/interventions/1
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Lead>> Deleteleads(long id)
+        public async Task<ActionResult<Intervention>> Deleteinterventions(long id)
         {
-            var leads = await _context.leads.FindAsync(id);
-            if (leads == null)
+            var interventions = await _context.interventions.FindAsync(id);
+            if (interventions == null)
             {
                 return NotFound();
             }
-            _context.leads.Remove(leads);
+            _context.interventions.Remove(interventions);
             await _context.SaveChangesAsync();
-            return leads;
+            return interventions;
         }
-        private bool leadsExists(long id)
+        private bool interventionsExists(long id)
         {
-            return _context.leads.Any(e => e.id == id);
+            return _context.interventions.Any(e => e.id == id);
         }
     }
 }
