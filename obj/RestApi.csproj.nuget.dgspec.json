@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/isael/Documents/GitHub/IsaelRestAPI/RestApi.csproj": {}
+    "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj": {}
   },
   "projects": {
-    "/Users/isael/Documents/GitHub/IsaelRestAPI/RestApi.csproj": {
+    "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/isael/Documents/GitHub/IsaelRestAPI/RestApi.csproj",
+        "projectUniqueName": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj",
         "projectName": "RestApi",
-        "projectPath": "/Users/isael/Documents/GitHub/IsaelRestAPI/RestApi.csproj",
-        "packagesPath": "/Users/isael/.nuget/packages/",
-        "outputPath": "/Users/isael/Documents/GitHub/IsaelRestAPI/obj/",
+        "projectPath": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj",
+        "packagesPath": "C:\\Users\\mykee\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/isael/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\mykee\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -39,6 +39,10 @@
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[3.1.2, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.3, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -85,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
