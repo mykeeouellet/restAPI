@@ -5,70 +5,53 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Rocket_Elevators_Rest_Api.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using RestApi.Models;
 
-namespace Rocket_Elevators_Rest_Api.Controllers
+namespace RestApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ColumnsController : ControllerBase
     {
-        private readonly RocketElevators _context;
-
-        public ColumnsController(RocketElevators context)
+        private readonly ApiContext _context;
+        public ColumnsController(ApiContext context)
         {
             _context = context;
         }
-
-        // GET: api/Columns
-        // Return List of all Columns
+        // GET: api/columns
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Columns>>> GetColumns()
+        public async Task<ActionResult<IEnumerable<Column>>> Getcolumns()
         {
-            return await _context.Columns.ToListAsync();
+            return await _context.columns.ToListAsync();
         }
-
-        // GET: api/Columns/5
-        // Return Status of Specific Column
+        // GET: api/columns/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> GetColumnStatus(long id)
+        public async Task<ActionResult<Column>> Getcolumns(long id)
         {
-            var column = await _context.Columns.FindAsync(id);
-            if (column == null)
+            var columns = await _context.columns.FindAsync(id);
+            if (columns == null)
             {
-                return "ID not found";
+                return NotFound();
             }
-            return column.ColumnStatus;
+            return columns;
         }
-        
-
-
-        // PUT: api/Columns/5
-        // Modify status of specific Column 
-        [HttpPut("update/status/{id}")]
-        public async Task<IActionResult> PutUpdateColumnStatus(long id, string status)
+        // PUT: api/columns/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Putcolumns(long id, Column columns)
         {
-            if (id == null)
+            if (id != columns.id)
             {
                 return BadRequest();
             }
-
-            if (status == null)
-            {
-                return BadRequest();
-            }
-
-            var Column = await _context.Columns.FindAsync(id);
-
-            Column.ColumnStatus = status;
-
+            _context.Entry(columns).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColumnsExists(id))
+                if (!columnsExists(id))
                 {
                     return NotFound();
                 }
@@ -77,46 +60,33 @@ namespace Rocket_Elevators_Rest_Api.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
-
-        // Return True if specific Column exist else return False
-        private bool ColumnsExists(long id)
+        // POST: api/columns
+        [HttpPost]
+        public async Task<ActionResult<Column>> Postcolumns(Column columns)
         {
-            return _context.Columns.Any(e => e.Id == id);
+            _context.columns.Add(columns);
+            await _context.SaveChangesAsync();
+            //return CreatedAtAction("Getcolumns", new { id = columns.Id }, columns);
+            return CreatedAtAction(nameof(Getcolumns), new { id = columns.id }, columns);
         }
-
-
-        // DELETE: 
-        [HttpDelete("delete/{id}")]
-        public async Task<ActionResult> DeleteColumn(long id)
+        // DELETE: api/columns/5
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Column>> Deletecolumns(long id)
         {
-
-            if (id == null)
+            var columns = await _context.columns.FindAsync(id);
+            if (columns == null)
             {
                 return NotFound();
             }
-
-            var Column = await _context.Columns.FindAsync(id);
-
-            _context.Columns.Remove(Column);
-
+            _context.columns.Remove(columns);
             await _context.SaveChangesAsync();
-            return NoContent();
+            return columns;
         }
-    
-
-        // POST:
-
-        [HttpPost]
-        public async Task<ActionResult<Columns>> PostColumns(Columns columns)
+        private bool columnsExists(long id)
         {
-            _context.Columns.Add(columns);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetColumns", new { id = columns.Id }, columns);
+            return _context.columns.Any(e => e.id == id);
         }
-
     }
 }

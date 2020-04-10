@@ -5,71 +5,63 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Rocket_Elevators_Rest_Api.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using RestApi.Models;
 
-namespace Rocket_Elevators_Rest_Api.Controllers
+namespace RestApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class ElevatorsController : ControllerBase
     {
-        private readonly RocketElevators _context;
-
-        public ElevatorsController(RocketElevators context)
+        private readonly ApiContext _context;
+        public ElevatorsController(ApiContext context)
         {
             _context = context;
         }
-
-        // GET: api/Elevators/5
-        // Return Status of Specific Elevator
-        [HttpGet("{id}")]
-        public async Task<ActionResult<string>> GetElevatorStatus(long id)
-        {
-            var elevator = await _context.Elevators.FindAsync(id);
-            if (elevator == null)
-            {
-                return "ID not found";
-            }
-            return elevator.ElevatorStatus;
-        }
-
-        // GET: api/Elevators 
-        // Return List of Inactive Elevators
+        // GET: api/elevators
         [HttpGet]
-        public  ActionResult<IEnumerable<Elevators>> GetInactiveElevators()
+        public async Task<ActionResult<IEnumerable<Elevator>>> Getelevators()
         {
-            List<Elevators> InactiveElevatorsList = new List<Elevators>();
-            foreach (var Elevator in _context.Elevators)
-            {
-                if (Elevator.ElevatorStatus != "Active")
-                {
-                    InactiveElevatorsList.Add(Elevator);
-                }
-            }
-            return InactiveElevatorsList.ToList();
+            return await _context.elevators.ToListAsync();
         }
 
-        // PUT: api/Elevators/5
-        // Update Status of specific Elevator 
-        [HttpPut("update/status/{id}")]
-        public async Task<IActionResult> PutUpdateElevatorStatus(long id, string status)
+        // GET: api/elevators/unavailable
+        [HttpGet("unavailable")]
+        public List<Elevator> Getstatus(string status)
         {
-            if (status == null)
+            var unavailable = _context.elevators.Where(e => e.status != "Active").ToList();
+            return unavailable;
+        }
+
+        // GET: api/elevators/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Elevator>> Getelevators(long id)
+        {
+            var elevators = await _context.elevators.FindAsync(id);
+            if (elevators == null)
+            {
+                return NotFound();
+            }
+            return elevators;
+        }
+
+        // PUT: api/elevators/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Putelevators(long id, Elevator elevators)
+        {
+            if (id != elevators.id)
             {
                 return BadRequest();
             }
-
-            var Elevator = await _context.Elevators.FindAsync(id);
-
-            Elevator.ElevatorStatus = status;
-
+            _context.Entry(elevators).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ElevatorsExists(id))
+                if (!elevatorsExists(id))
                 {
                     return NotFound();
                 }
@@ -78,14 +70,33 @@ namespace Rocket_Elevators_Rest_Api.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
-
-        // Return True if specific Elevator exist else return False
-        private bool ElevatorsExists(long id)
+        // POST: api/elevators
+        [HttpPost]
+        public async Task<ActionResult<Elevator>> Postelevators(Elevator elevators)
         {
-            return _context.Elevators.Any(e => e.Id == id);
+            _context.elevators.Add(elevators);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(Getelevators), new { id = elevators.id }, elevators);
+        }
+
+        // DELETE: api/elevators/1
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Elevator>> Deleteelevators(long id)
+        {
+            var elevators = await _context.elevators.FindAsync(id);
+            if (elevators == null)
+            {
+                return NotFound();
+            }
+            _context.elevators.Remove(elevators);
+            await _context.SaveChangesAsync();
+            return elevators;
+        }
+        private bool elevatorsExists(long id)
+        {
+            return _context.elevators.Any(e => e.id == id);
         }
     }
 }
