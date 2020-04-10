@@ -29,30 +29,23 @@ namespace RestApi.Controllers
             return await _context.interventions.ToListAsync();
         }
 
-        // GET: api/interventions/available
-        [HttpGet("notacustomer")]
-        public List<Intervention> Getnotacustomer()
+        // GET: api/interventions/1
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Intervention>> Getintervention(long id)
         {
-            List<Intervention> contacts = _context.interventions.ToList();
-            List<Customer> existingCustomer = _context.customers.ToList();
-
-            List<Intervention> interventionsList = new List<Intervention>();
-            var dateMax = DateTime.Now.AddDays(-30);
-
-            foreach(var test in contacts){
-                if(test.date > dateMax) {
-                    bool foundCustomer = false;
-                    foreach(var mycustomer in existingCustomer) {
-                        if(test.businessname == mycustomer.company_name) {
-                            foundCustomer = true;
-                        }
-                    }
-                    if(!foundCustomer) {
-                        interventionsList.Add(test);
-                    }
-                }
+            var intervention = await _context.interventions.FindAsync(id);
+            if (intervention == null)
+            {
+                return NotFound();
             }
-            return interventionsList.ToList();
+            return intervention;
+        }
+
+        // GET: api/interventions/status
+        [HttpGet("status")]
+        public List<Intervention> GetPending(){
+            var pending = _context.interventions.Where(i => i.status == "Pending" && i.starting_time == null).ToList();
+            return pending;
         }
 
         // PUT: api/interventions/5
@@ -81,7 +74,7 @@ namespace RestApi.Controllers
             }
             return NoContent();
         }
-        
+
         // POST: api/interventions
         [HttpPost]
         public async Task<ActionResult<Intervention>> Postinterventions(Intervention interventions)

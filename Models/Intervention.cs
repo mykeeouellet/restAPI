@@ -10,13 +10,16 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 public class Intervention
 {
 public long id { get; set; }
-public string name { get; set; }
-public long phone { get; set; }
-public string email { get; set; }
-public string businessname { get; set; }
-public string projectname { get; set; }
-public string department { get; set; }
-public string description { get; set; }
-public string message { get; set; }
-public DateTime date { get; set; }
+public long author { get; set; }
+public long customer_id { get; set; }
+public long building_id { get; set; }
+public long? battery_id { get; set; } = null;
+public long? column_id { get; set; } = null;
+public long? elevator_id { get; set; } = null;
+public long? employee_id { get; set; } = null;
+public DateTime? starting_time { get; set; } = null;
+public DateTime? ending_time { get; set; } = null;
+public string result { get; set; }
+public string report { get; set; }
+public string status { get; set; }
 }
