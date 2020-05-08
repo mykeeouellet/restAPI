@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj": {}
+    "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\week-9-restapi\\RestApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj": {
+    "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\week-9-restapi\\RestApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj",
+        "projectUniqueName": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\week-9-restapi\\RestApi.csproj",
         "projectName": "RestApi",
-        "projectPath": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\RestApi.csproj",
+        "projectPath": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\week-9-restapi\\RestApi.csproj",
         "packagesPath": "C:\\Users\\mykee\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\Week-9-RestAPI\\obj\\",
+        "outputPath": "C:\\Users\\mykee\\Desktop\\Codeboxx\\Livrables\\week-9-restapi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\mykee\\AppData\\Roaming\\NuGet\\NuGet.Config"
