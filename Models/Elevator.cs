@@ -15,8 +15,8 @@ public class Elevator
     public string building_type { get; set; }
     public string elevator_status { get; set; }
     public DateTime elevator_commissioning_date { get; set; }
-    public DateTime elevator_inspection_date { get; set; }
-    public string elevator_certificate_inspection { get; set; }
+    public DateTime elevator_last_inspection_date { get; set; }
+    public string elevator_inspection_certificate { get; set; }
     public string elevator_information { get; set; }
     public string elevator_notes { get; set; }
     public long column_id { get; set; }
