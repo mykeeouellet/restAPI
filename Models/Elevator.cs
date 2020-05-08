@@ -10,15 +10,15 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 public class Elevator
 {
     public long id { get; set; }
-    public string serial_number { get; set; }
-    public string model { get; set; }
-    public string type_elevator { get; set; }
-    public string status { get; set; }
-    public DateTime commissioning_date { get; set; }
-    public DateTime inspection_date { get; set; }
-    public string certificate_inspection { get; set; }
-    public string information { get; set; }
-    public string notes { get; set; }
+    public string elevator_serial_number { get; set; }
+    public string elevator_model { get; set; }
+    public string building_type { get; set; }
+    public string elevator_status { get; set; }
+    public DateTime elevator_commissioning_date { get; set; }
+    public DateTime elevator_inspection_date { get; set; }
+    public string elevator_certificate_inspection { get; set; }
+    public string elevator_information { get; set; }
+    public string elevator_notes { get; set; }
     public long column_id { get; set; }
     public Column columns { get; set; }
 }

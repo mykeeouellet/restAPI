@@ -33,7 +33,7 @@ namespace RestApi.Controllers
         [HttpGet("intervention")]
         public List<Building> Getintervention(string status)
         {
-            var elevatorz = _context.buildings.Where(a => a.batteries.SelectMany(b => b.columns).SelectMany(c => c.elevators).Any(c => c.status == "Intervention")).ToList();
+            var elevatorz = _context.buildings.Where(a => a.batteries.SelectMany(b => b.columns).SelectMany(c => c.elevators).Any(c => c.elevator_status == "Intervention")).ToList();
             var columnz = _context.buildings.Where(a => a.batteries.SelectMany(b => b.columns).Any(b => b.status == "Intervention")).ToList();
             var batteryz = _context.buildings.Where(a => a.batteries.Any(a => a.status == "Intervention")).ToList();
             var intervention = elevatorz.Union(columnz).Union(batteryz).OrderBy(building => building.id).ToList();
