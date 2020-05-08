@@ -30,7 +30,7 @@ namespace RestApi.Controllers
         [HttpGet("unavailable")]
         public List<Elevator> Getstatus(string status)
         {
-            var unavailable = _context.elevators.Where(e => e.status != "Active").ToList();
+            var unavailable = _context.elevators.Where(e => e.elevator_status != "Active").ToList();
             return unavailable;
         }
 
