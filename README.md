@@ -8,7 +8,7 @@ Postman Collection:  https://www.getpostman.com/collections/1ea82e58fb5ba7b51de1
 Select the first option(GET) and click Send(Blue button on the right corner).  You will get all the information about the first battery.  To switch to another battery, just enter è different number at the end of the URL.
 
 Ex: 
-https://thewonderfulrestapi.azurewebsites.net/api/batteries/1 ←
+https://rocketapimykee.azurewebsites.net/api/interventions ←
 
 2.Changing the status of a specific Battery(PUT): Once you get the Information about the 1st battery, you'll need to copy the all of the information included in the “Body” on the right side of your screen and paste it in the “JSON” Body.  You can now change the information at the right side of “status”.  Switch the request from GET to PUT and click the SEND button.  Once you sent the request, switch the request once again for GET and send the request.  You should be able to see that the status has now been changed.
 
