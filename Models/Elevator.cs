@@ -10,7 +10,7 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 public class Elevator
 {
     public long id { get; set; }
-    public string elevator_serial_number { get; set; }
+    public long elevator_serial_number { get; set; }
     public string elevator_model { get; set; }
     public string building_type { get; set; }
     public string elevator_status { get; set; }

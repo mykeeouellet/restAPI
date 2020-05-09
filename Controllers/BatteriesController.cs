@@ -65,7 +65,6 @@ namespace RestApi.Controllers
             }
             return NoContent();
         }
-        
         // POST: api/batteries
         [HttpPost]
         public async Task<ActionResult<Battery>> Postbatteries(Battery batteries)

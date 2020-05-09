@@ -79,7 +79,7 @@ namespace RestApi.Controllers
             }
             return NoContent();
         }
-        
+
         // POST: api/buildings
         [HttpPost]
         public async Task<ActionResult<Building>> Postbuildings(Building buildings)
