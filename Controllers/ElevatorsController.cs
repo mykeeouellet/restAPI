@@ -28,7 +28,7 @@ namespace RestApi.Controllers
 
         // GET: api/elevators/unavailable
         [HttpGet("unavailable")]
-        public List<Elevator> Getstatus(string status)
+        public List<Elevator> Getstatus(string elevator_status)
         {
             var unavailable = _context.elevators.Where(e => e.elevator_status != "Active").ToList();
             return unavailable;
